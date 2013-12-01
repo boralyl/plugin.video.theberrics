@@ -45,6 +45,12 @@ def categories():
             'path': plugin.url_for('show_category', category='diy_or_die')
     	},
         {
+    	    'label': 'Off The Grid',
+    	    'icon': MEDIA_URL + 'off_the_grid.png',
+    	    'thumbnail': MEDIA_URL + 'off_the_grid.png',
+            'path': plugin.url_for('show_category', category='off_the_grid')
+    	},
+        {
     	    'label': 'Recruit',
     	    'icon': MEDIA_URL + 'recruit.jpg',
     	    'thumbnail': MEDIA_URL + 'recruit.jpg',
