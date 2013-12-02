@@ -8,7 +8,7 @@ Supported Channels
 * Bangin!
 * Battle Commander
 * DIY or DIE
-* General Ops
+* General Ops (slow loading, need to implement caching)
 * Off the Grid
 * Process
 * Recruit
