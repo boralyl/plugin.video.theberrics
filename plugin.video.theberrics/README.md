@@ -11,3 +11,5 @@ Supported Channels
 * Off the Grid
 * Process
 * Recruit
+* Trajectory
+* VHS

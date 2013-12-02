@@ -62,6 +62,18 @@ def categories():
     	    'thumbnail': MEDIA_URL + 'recruit.jpg',
             'path': plugin.url_for('show_category', category='recruit')
     	},
+        {
+    	    'label': 'Trajectory',
+    	    'icon': MEDIA_URL + 'trajectory.jpg',
+    	    'thumbnail': MEDIA_URL + 'trajectory.jpg',
+            'path': plugin.url_for('show_category', category='trajectory')
+    	},
+        {
+    	    'label': 'VHS',
+    	    'icon': MEDIA_URL + 'vhs.jpg',
+    	    'thumbnail': MEDIA_URL + 'vhs.jpg',
+            'path': plugin.url_for('show_category', category='vhs')
+    	},
     ]
     return plugin.finish(items)
 

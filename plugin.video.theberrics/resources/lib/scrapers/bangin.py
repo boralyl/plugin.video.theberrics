@@ -8,9 +8,9 @@ class BanginScraper(BaseScraper):
         """
         """
         date = post.find("div", attrs={'class': 'post-date'})
-        date = date.text
+        date = date.text.encode('ascii', 'ignore')
         name = post.find("div", attrs={'class': 'post-sub-title'})
-        name = name.text
+        name = name.text.encode('ascii', 'ignore')
         name = name.replace('&nbsp;', '')
         if name:
             return "{0} - {1}".format(date, name)

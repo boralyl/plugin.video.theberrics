@@ -8,6 +8,8 @@ from scrapers.diyordie import DiyOrDieScraper
 from scrapers.offthegrid import OffTheGridScraper
 from scrapers.process import ProcessScraper
 from scrapers.recruit import RecruitScraper
+from scrapers.trajectory import TrajectoryScraper
+from scrapers.vhs import VHSScraper
 
 
 BERRICS_VIDEO_URL = 'http://berrics.vo.llnwd.net/o45/{0}.mp4'
@@ -29,6 +31,10 @@ def get_items_for_category(category, plugin):
         scraper = OffTheGridScraper(plugin)
     elif category == 'process':
         scraper = ProcessScraper(plugin)
+    elif category == 'trajectory':
+        scraper = TrajectoryScraper(plugin)
+    elif category == 'vhs':
+        scraper = VHSScraper(plugin)
     return scraper.get_items()
 
 
