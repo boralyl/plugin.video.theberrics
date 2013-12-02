@@ -12,5 +12,6 @@ Supported Channels
 * Off the Grid
 * Process
 * Recruit
+* Shoot All Skaters
 * Trajectory
 * VHS

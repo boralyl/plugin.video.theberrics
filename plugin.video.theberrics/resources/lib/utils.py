@@ -9,6 +9,7 @@ from scrapers.generalops import GeneralOpsScraper
 from scrapers.offthegrid import OffTheGridScraper
 from scrapers.process import ProcessScraper
 from scrapers.recruit import RecruitScraper
+from scrapers.shootallskaters import ShootAllSkatersScraper
 from scrapers.trajectory import TrajectoryScraper
 from scrapers.vhs import VHSScraper
 
@@ -39,6 +40,8 @@ def get_items_for_category(category, plugin):
     elif category == 'general_ops':
         # @TODO: Need caching, especially for this one, lots of items on a page
         scraper = GeneralOpsScraper(plugin)
+    elif category == 'shoot_all':
+        scraper = ShootAllSkatersScraper(plugin)
     return scraper.get_items()
 
 

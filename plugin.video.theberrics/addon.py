@@ -69,6 +69,12 @@ def categories():
             'path': plugin.url_for('show_category', category='recruit')
     	},
         {
+    	    'label': 'Shoot All Skaters',
+    	    'icon': MEDIA_URL + 'shoot_all_skaters.png',
+    	    'thumbnail': MEDIA_URL + 'shoot_all_skaters.png',
+            'path': plugin.url_for('show_category', category='shoot_all')
+    	},
+        {
     	    'label': 'Trajectory',
     	    'icon': MEDIA_URL + 'trajectory.jpg',
     	    'thumbnail': MEDIA_URL + 'trajectory.jpg',
