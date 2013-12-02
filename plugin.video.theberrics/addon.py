@@ -51,6 +51,12 @@ def categories():
             'path': plugin.url_for('show_category', category='off_the_grid')
     	},
         {
+    	    'label': 'Process',
+    	    'icon': MEDIA_URL + 'process.png',
+    	    'thumbnail': MEDIA_URL + 'process.png',
+            'path': plugin.url_for('show_category', category='process')
+    	},
+        {
     	    'label': 'Recruit',
     	    'icon': MEDIA_URL + 'recruit.jpg',
     	    'thumbnail': MEDIA_URL + 'recruit.jpg',

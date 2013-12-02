@@ -9,4 +9,5 @@ Supported Channels
 * Battle Commander
 * DIY or DIE
 * Off the Grid
+* Process
 * Recruit

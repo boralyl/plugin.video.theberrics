@@ -6,6 +6,7 @@ from scrapers.bangin import BanginScraper
 from scrapers.battlecommander import BattleCommanderScraper
 from scrapers.diyordie import DiyOrDieScraper
 from scrapers.offthegrid import OffTheGridScraper
+from scrapers.process import ProcessScraper
 from scrapers.recruit import RecruitScraper
 
 
@@ -26,6 +27,8 @@ def get_items_for_category(category, plugin):
         scraper = RecruitScraper(plugin)
     elif category == 'off_the_grid':
         scraper = OffTheGridScraper(plugin)
+    elif category == 'process':
+        scraper = ProcessScraper(plugin)
     return scraper.get_items()
 
 
