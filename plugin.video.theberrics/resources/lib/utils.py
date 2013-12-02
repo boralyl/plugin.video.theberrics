@@ -5,6 +5,7 @@ import requests
 from scrapers.bangin import BanginScraper
 from scrapers.battlecommander import BattleCommanderScraper
 from scrapers.diyordie import DiyOrDieScraper
+from scrapers.generalops import GeneralOpsScraper
 from scrapers.offthegrid import OffTheGridScraper
 from scrapers.process import ProcessScraper
 from scrapers.recruit import RecruitScraper
@@ -35,6 +36,9 @@ def get_items_for_category(category, plugin):
         scraper = TrajectoryScraper(plugin)
     elif category == 'vhs':
         scraper = VHSScraper(plugin)
+    elif category == 'general_ops':
+        # @TODO: Need caching, especially for this one, lots of items on a page
+        scraper = GeneralOpsScraper(plugin)
     return scraper.get_items()
 
 
