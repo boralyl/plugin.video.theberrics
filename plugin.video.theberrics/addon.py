@@ -27,17 +27,17 @@ def categories():
     icon_path = MEDIA_URL + 'bangin.jpg'
     items = [
         {
-	        'label': 'Bangin!',
-	        'icon': MEDIA_URL + 'bangin.jpg',
-	        'thumbnail': MEDIA_URL + 'bangin.jpg',
+            'label': 'Bangin!',
+            'icon': MEDIA_URL + 'bangin.jpg',
+            'thumbnail': MEDIA_URL + 'bangin.jpg',
             'path': plugin.url_for('show_category', category='bangin')
-	    },
+        },
         {
-	        'label': 'Battle Commander',
-	        'icon': MEDIA_URL + 'battle_commander.jpg',
-	        'thumbnail': MEDIA_URL + 'battle_commander.jpg',
+            'label': 'Battle Commander',
+            'icon': MEDIA_URL + 'battle_commander.jpg',
+            'thumbnail': MEDIA_URL + 'battle_commander.jpg',
             'path': plugin.url_for('show_category', category='battle_commander')
-	    },
+        },
         {
     	    'label': 'DIY or DIE',
     	    'icon': MEDIA_URL + 'diy_or_die.jpg',
