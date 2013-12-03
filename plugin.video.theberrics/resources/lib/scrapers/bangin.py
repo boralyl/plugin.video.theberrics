@@ -6,6 +6,7 @@ class BanginScraper(BaseScraper):
 
     def get_label(self, post):
         """
+        Parses the HTML for the label
         """
         date = post.find("div", attrs={'class': 'post-date'})
         date = date.text.encode('ascii', 'ignore')
@@ -19,6 +20,7 @@ class BanginScraper(BaseScraper):
 
     def get_icon(self, post):
         """
+        Parses the HTML for the image for the video
         """
         img = post.find("img")
         try:
@@ -29,6 +31,7 @@ class BanginScraper(BaseScraper):
 
     def get_url(self, post):
         """
+        Parses the HTML for the url for the video page
         @TODO: what if we can't find it?  Return a sane default.
         """
         a = post.find("a")
@@ -36,7 +39,7 @@ class BanginScraper(BaseScraper):
 
     def get_item(self, post):
         """
-
+        Creates a single playable item
         """
         label = self.get_label(post)
         icon = self.get_icon(post)
@@ -54,6 +57,9 @@ class BanginScraper(BaseScraper):
         return item
 
     def get_items(self):
+        """
+        Parses the HTML for all videos and creates a list of them
+        """
         attrs = {'class': 'post-thumb standard-post-thumb'}
         posts = self.soup.findAll("div", attrs=attrs)
         return [self.get_item(post) for post in posts]

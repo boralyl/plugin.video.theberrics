@@ -1,3 +1,18 @@
+# *  This Program is free software; you can redistribute it and/or modify
+# *  it under the terms of the GNU General Public License as published by
+# *  the Free Software Foundation; either version 2, or (at your option)
+# *  any later version.
+# *
+# *  This Program is distributed in the hope that it will be useful,
+# *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+# *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+# *  GNU General Public License for more details.
+# *
+# *  You should have received a copy of the GNU General Public License
+# *  along with XBMC; see the file COPYING. If not, write to
+# *  the Free Software Foundation, 675 Mass Ave, Cambridge, MA 02139, USA.
+# *  http://www.gnu.org/copyleft/gpl.html
+
 from xbmcswift2 import Plugin
 
 from resources.lib import utils
@@ -11,6 +26,9 @@ plugin = Plugin()
 
 @plugin.route('/play/<url>')
 def play_video(url):
+    """
+    Plays the passed in video
+    """
     vid_url = utils.get_video_url(url)
     plugin.log.info('Playing url: %s' % vid_url)
     plugin.set_resolved_url(vid_url)
@@ -18,13 +36,18 @@ def play_video(url):
 
 @plugin.route('/category/<category>')
 def show_category(category):
+    """
+    Category page, lists all videos for the provided category
+    """
     items = utils.get_items_for_category(category, plugin)
     return plugin.finish(items)
 
 
 @plugin.route('/')
 def categories():
-    icon_path = MEDIA_URL + 'bangin.jpg'
+    """
+    The index view, which lists all categories
+    """
     items = [
         {
             'label': 'Bangin!',
@@ -94,4 +117,6 @@ if __name__ == '__main__':
     try:
         plugin.run()
     except Exception:
+        # @TODO: Proper custom exceptions should be caught here for various
+        # problems that may be encountered parsing the site.
         plugin.notify(msg='network_error')
