@@ -6,11 +6,13 @@ from scrapers.base import GOOGLE_CACHE_URL
 from scrapers.bangin import BanginScraper
 from scrapers.battlecommander import BattleCommanderScraper
 from scrapers.diyordie import DiyOrDieScraper
+from scrapers.firsttryfridays import FirstTryFridaysScraper
 from scrapers.generalops import GeneralOpsScraper
 from scrapers.offthegrid import OffTheGridScraper
 from scrapers.process import ProcessScraper
 from scrapers.recruit import RecruitScraper
 from scrapers.shootallskaters import ShootAllSkatersScraper
+from scrapers.thrashinthursdays import ThrashinThursdaysScraper
 from scrapers.trajectory import TrajectoryScraper
 from scrapers.vhs import VHSScraper
 
@@ -51,6 +53,10 @@ def get_items_for_category(category, plugin):
         scraper = GeneralOpsScraper(plugin)
     elif category == 'shoot_all':
         scraper = ShootAllSkatersScraper(plugin)
+    elif category == 'first_try_f':
+        scraper = FirstTryFridaysScraper(plugin)
+    elif category == 'thrashin_t':
+        scraper = ThrashinThursdaysScraper(plugin)
 
     # Return cached result or calls function.  Cache expires every 24 hours
     return cache.cacheFunction(scraper.get_items)

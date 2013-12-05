@@ -68,6 +68,12 @@ def categories():
             'path': plugin.url_for('show_category', category='diy_or_die')
     	},
         {
+            'label': 'First Try Fridays',
+            'icon': MEDIA_URL + 'first_try_fridays.jpg',
+            'thumbnail': MEDIA_URL + 'first_try_fridays.jpg',
+            'path': plugin.url_for('show_category', category='first_try_f')
+        },
+        {
     	    'label': 'General Ops',
     	    'icon': MEDIA_URL + 'general_ops.jpg',
     	    'thumbnail': MEDIA_URL + 'general_ops.jpg',
@@ -97,6 +103,12 @@ def categories():
     	    'thumbnail': MEDIA_URL + 'shoot_all_skaters.png',
             'path': plugin.url_for('show_category', category='shoot_all')
     	},
+        {
+            'label': 'Thrashin\' Thursdays',
+            'icon': MEDIA_URL + 'thrashin_thursdays.png',
+            'thumbnail': MEDIA_URL + 'thrashin_thursdays.png',
+            'path': plugin.url_for('show_category', category='thrashin_t')
+        },
         {
     	    'label': 'Trajectory',
     	    'icon': MEDIA_URL + 'trajectory.jpg',
