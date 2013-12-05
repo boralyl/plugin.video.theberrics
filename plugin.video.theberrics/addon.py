@@ -116,7 +116,5 @@ def categories():
 if __name__ == '__main__':
     try:
         plugin.run()
-    except Exception:
-        # @TODO: Proper custom exceptions should be caught here for various
-        # problems that may be encountered parsing the site.
-        plugin.notify(msg='network_error')
+    except Exception as e:
+        plugin.notify(msg=e.message, delay=8000)

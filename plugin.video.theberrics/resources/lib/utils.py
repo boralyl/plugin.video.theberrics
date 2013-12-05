@@ -2,6 +2,7 @@ import re
 
 import requests
 
+from scrapers.base import GOOGLE_CACHE_URL
 from scrapers.bangin import BanginScraper
 from scrapers.battlecommander import BattleCommanderScraper
 from scrapers.diyordie import DiyOrDieScraper
@@ -69,7 +70,15 @@ def get_video_url(url):
     Fetches the actual mp4 video file url
     """
     url = add_autoplay(url)
-    r = requests.get(url)
+    try:
+        r = requests.get(url, timeout=5)
+    except requests.Timeout:
+        # If we timeout, try to load the page from google cache.
+        cache_url = GOOGLE_CACHE_URL.format(url)
+        r = requests.get(cache_url)
+        if r.status_code != 200:
+            raise Exception("Connection timed out trying to load video page "
+                            "%s" % url)
     found = VIDEO_ID_RE.findall(r.text)
     if found:
         return BERRICS_VIDEO_URL.format(found[0])
