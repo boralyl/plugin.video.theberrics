@@ -17,3 +17,4 @@ Supported Channels
 * Thrashin' Thursdays
 * Trajectory
 * VHS
+* Wednesdays with Reda
