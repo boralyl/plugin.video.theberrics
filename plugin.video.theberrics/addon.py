@@ -121,6 +121,12 @@ def categories():
     	    'thumbnail': MEDIA_URL + 'vhs.jpg',
             'path': plugin.url_for('show_category', category='vhs')
     	},
+        {
+            'label': 'Wednesdays With Reda',
+            'icon': MEDIA_URL + 'wednesdays_with_reda.png',
+            'thumbnail': MEDIA_URL + 'wednesdays_with_reda.png',
+            'path': plugin.url_for('show_category', category='wednesdays_reda')
+        },
     ]
     return plugin.finish(items)
 
@@ -129,4 +135,5 @@ if __name__ == '__main__':
     try:
         plugin.run()
     except Exception as e:
-        plugin.notify(msg=e.message, delay=8000)
+        msg = "Error: check logs.  %s" % (e.message,)
+        plugin.notify(msg=msg, delay=8000)

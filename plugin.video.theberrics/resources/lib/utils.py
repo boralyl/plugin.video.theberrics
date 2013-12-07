@@ -15,6 +15,7 @@ from scrapers.shootallskaters import ShootAllSkatersScraper
 from scrapers.thrashinthursdays import ThrashinThursdaysScraper
 from scrapers.trajectory import TrajectoryScraper
 from scrapers.vhs import VHSScraper
+from scrapers.wednesdayswithreda import WednesdaysWithRedaScraper
 
 # for script.common.plugin.cache
 try:
@@ -57,6 +58,8 @@ def get_items_for_category(category, plugin):
         scraper = FirstTryFridaysScraper(plugin)
     elif category == 'thrashin_t':
         scraper = ThrashinThursdaysScraper(plugin)
+    elif category == 'wednesdays_reda':
+        scraper = WednesdaysWithRedaScraper(plugin)
 
     # Return cached result or calls function.  Cache expires every 24 hours
     return cache.cacheFunction(scraper.get_items)
