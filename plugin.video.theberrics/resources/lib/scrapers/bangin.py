@@ -45,7 +45,6 @@ class BanginScraper(BaseScraper):
         icon = self.get_icon(post)
         url = self.get_url(post)
         path = self.plugin.url_for('play_video', url=url)
-        #vid_url = self.get_video_url(url)
         item = {
             'label': label,
             'label2': label,

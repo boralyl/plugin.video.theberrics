@@ -59,7 +59,8 @@ def categories():
             'label': 'Battle Commander',
             'icon': MEDIA_URL + 'battle_commander.jpg',
             'thumbnail': MEDIA_URL + 'battle_commander.jpg',
-            'path': plugin.url_for('show_category', category='battle_commander')
+            'path': plugin.url_for('show_category',
+                                   category='battle_commander')
         },
         {
     	    'label': 'DIY or DIE',
@@ -71,7 +72,8 @@ def categories():
             'label': 'First Try Fridays',
             'icon': MEDIA_URL + 'first_try_fridays.jpg',
             'thumbnail': MEDIA_URL + 'first_try_fridays.jpg',
-            'path': plugin.url_for('show_category', category='first_try_f')
+            'path': plugin.url_for('show_category',
+                                   category='first_try_fridays')
         },
         {
     	    'label': 'General Ops',
@@ -101,13 +103,15 @@ def categories():
     	    'label': 'Shoot All Skaters',
     	    'icon': MEDIA_URL + 'shoot_all_skaters.png',
     	    'thumbnail': MEDIA_URL + 'shoot_all_skaters.png',
-            'path': plugin.url_for('show_category', category='shoot_all')
+            'path': plugin.url_for('show_category',
+                                   category='shoot_all_skaters')
     	},
         {
             'label': 'Thrashin\' Thursdays',
             'icon': MEDIA_URL + 'thrashin_thursdays.png',
             'thumbnail': MEDIA_URL + 'thrashin_thursdays.png',
-            'path': plugin.url_for('show_category', category='thrashin_t')
+            'path': plugin.url_for('show_category',
+                                   category='thrashin_thursdays')
         },
         {
     	    'label': 'Trajectory',
@@ -125,7 +129,8 @@ def categories():
             'label': 'Wednesdays With Reda',
             'icon': MEDIA_URL + 'wednesdays_with_reda.png',
             'thumbnail': MEDIA_URL + 'wednesdays_with_reda.png',
-            'path': plugin.url_for('show_category', category='wednesdays_reda')
+            'path': plugin.url_for('show_category',
+                                   category='wednesdays_with_reda')
         },
     ]
     return plugin.finish(items)

@@ -1,3 +1,5 @@
+import importlib
+
 from BeautifulSoup import BeautifulSoup
 import requests
 
@@ -21,3 +23,19 @@ class BaseScraper(object):
                                 "be down." % self.url)
 
         self.soup = BeautifulSoup(self.response.text)
+
+    @staticmethod
+    def factory(category, plugin):
+        """
+        Factory method for instantiating the correct scraper class based
+        on the category string
+        """
+        # Dynamically import the module
+        module = 'resources.lib.scrapers.' + category.replace('_', '')
+        module = importlib.import_module(module)
+
+        # Get the class name and return the instance
+        class_name = ''.join([word.title() for word in category.split('_')])
+        class_name += 'Scraper'
+        klass = getattr(module, class_name)
+        return klass(plugin)

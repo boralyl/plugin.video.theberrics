@@ -1,5 +1,5 @@
 from bangin import BanginScraper
 
 
-class VHSScraper(BanginScraper):
+class VhsScraper(BanginScraper):
     url = 'http://theberrics.com/vhs'
