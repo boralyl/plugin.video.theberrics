@@ -52,3 +52,16 @@ def get_video_url(url):
     found = VIDEO_ID_RE.findall(r.text)
     if found:
         return BERRICS_VIDEO_URL.format(found[0])
+
+
+def create_item_for_category(name, category, media_url, plugin):
+    """
+    Creates an item for the category list page
+    """
+    item = {
+        'label': name,
+        'icon': "{0}{1}.png".format(media_url, category),
+        'thumbnail': "{0}{1}.png".format(media_url, category),
+        'path': plugin.url_for('show_category', category=category)
+    }
+    return item

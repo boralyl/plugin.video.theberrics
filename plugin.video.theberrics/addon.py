@@ -48,92 +48,24 @@ def categories():
     """
     The index view, which lists all categories
     """
-    items = [
-        {
-            'label': 'Bangin!',
-            'icon': MEDIA_URL + 'bangin.jpg',
-            'thumbnail': MEDIA_URL + 'bangin.jpg',
-            'path': plugin.url_for('show_category', category='bangin')
-        },
-        {
-            'label': 'Battle Commander',
-            'icon': MEDIA_URL + 'battle_commander.jpg',
-            'thumbnail': MEDIA_URL + 'battle_commander.jpg',
-            'path': plugin.url_for('show_category',
-                                   category='battle_commander')
-        },
-        {
-    	    'label': 'DIY or DIE',
-    	    'icon': MEDIA_URL + 'diy_or_die.jpg',
-    	    'thumbnail': MEDIA_URL + 'diy_or_die.jpg',
-            'path': plugin.url_for('show_category', category='diy_or_die')
-    	},
-        {
-            'label': 'First Try Fridays',
-            'icon': MEDIA_URL + 'first_try_fridays.jpg',
-            'thumbnail': MEDIA_URL + 'first_try_fridays.jpg',
-            'path': plugin.url_for('show_category',
-                                   category='first_try_fridays')
-        },
-        {
-    	    'label': 'General Ops',
-    	    'icon': MEDIA_URL + 'general_ops.jpg',
-    	    'thumbnail': MEDIA_URL + 'general_ops.jpg',
-            'path': plugin.url_for('show_category', category='general_ops')
-    	},
-        {
-    	    'label': 'Off The Grid',
-    	    'icon': MEDIA_URL + 'off_the_grid.png',
-    	    'thumbnail': MEDIA_URL + 'off_the_grid.png',
-            'path': plugin.url_for('show_category', category='off_the_grid')
-    	},
-        {
-    	    'label': 'Process',
-    	    'icon': MEDIA_URL + 'process.png',
-    	    'thumbnail': MEDIA_URL + 'process.png',
-            'path': plugin.url_for('show_category', category='process')
-    	},
-        {
-    	    'label': 'Recruit',
-    	    'icon': MEDIA_URL + 'recruit.jpg',
-    	    'thumbnail': MEDIA_URL + 'recruit.jpg',
-            'path': plugin.url_for('show_category', category='recruit')
-    	},
-        {
-    	    'label': 'Shoot All Skaters',
-    	    'icon': MEDIA_URL + 'shoot_all_skaters.png',
-    	    'thumbnail': MEDIA_URL + 'shoot_all_skaters.png',
-            'path': plugin.url_for('show_category',
-                                   category='shoot_all_skaters')
-    	},
-        {
-            'label': 'Thrashin\' Thursdays',
-            'icon': MEDIA_URL + 'thrashin_thursdays.png',
-            'thumbnail': MEDIA_URL + 'thrashin_thursdays.png',
-            'path': plugin.url_for('show_category',
-                                   category='thrashin_thursdays')
-        },
-        {
-    	    'label': 'Trajectory',
-    	    'icon': MEDIA_URL + 'trajectory.jpg',
-    	    'thumbnail': MEDIA_URL + 'trajectory.jpg',
-            'path': plugin.url_for('show_category', category='trajectory')
-    	},
-        {
-    	    'label': 'VHS',
-    	    'icon': MEDIA_URL + 'vhs.jpg',
-    	    'thumbnail': MEDIA_URL + 'vhs.jpg',
-            'path': plugin.url_for('show_category', category='vhs')
-    	},
-        {
-            'label': 'Wednesdays With Reda',
-            'icon': MEDIA_URL + 'wednesdays_with_reda.png',
-            'thumbnail': MEDIA_URL + 'wednesdays_with_reda.png',
-            'path': plugin.url_for('show_category',
-                                   category='wednesdays_with_reda')
-        },
-    ]
-    return plugin.finish(items)
+    categories = (
+        ('Bangin!', 'bangin'),
+        ('Battle Commander', 'battle_commander'),
+        ('DIY or DIE', 'diy_or_die'),
+        ('First Try Fridays', 'first_try_fridays'),
+        ('General Ops', 'general_ops'),
+        ('Off The Grid', 'off_the_grid'),
+        ('Process', 'process'),
+        ('Recruit', 'recruit'),
+        ('Shoot All Skaters', 'shoot_all_skaters'),
+        ('Thrashin\' Thursdays', 'thrashin_thursdays'),
+        ('Trajectory', 'trajectory'),
+        ('VHS', 'vhs'),
+        ('Wednesdays With Reda', 'wednesdays_with_reda'),
+    )
+    items = [utils.create_item_for_category(name, category, MEDIA_URL, plugin)
+             for name, category in categories]
+    return items
 
 
 if __name__ == '__main__':
