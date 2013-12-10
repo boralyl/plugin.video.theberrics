@@ -16,5 +16,6 @@ Supported Channels
 * Shoot All Skaters
 * Thrashin' Thursdays
 * Trajectory
+* United Nations
 * VHS
 * Wednesdays with Reda

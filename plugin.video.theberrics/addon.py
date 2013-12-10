@@ -60,6 +60,7 @@ def categories():
         ('Shoot All Skaters', 'shoot_all_skaters'),
         ('Thrashin\' Thursdays', 'thrashin_thursdays'),
         ('Trajectory', 'trajectory'),
+        ('United Nations', 'united_nations'),
         ('VHS', 'vhs'),
         ('Wednesdays With Reda', 'wednesdays_with_reda'),
     )
