@@ -49,6 +49,7 @@ def categories():
     The index view, which lists all categories
     """
     categories = (
+        ('All Eyes On', 'all_eyes_on'),
         ('Bangin!', 'bangin'),
         ('Battle Commander', 'battle_commander'),
         ('DIY or DIE', 'diy_or_die'),
@@ -60,6 +61,7 @@ def categories():
         ('Shoot All Skaters', 'shoot_all_skaters'),
         ('Thrashin\' Thursdays', 'thrashin_thursdays'),
         ('Trajectory', 'trajectory'),
+        ('Trickipedia', 'trickipedia'),
         ('United Nations', 'united_nations'),
         ('VHS', 'vhs'),
         ('Wednesdays With Reda', 'wednesdays_with_reda'),

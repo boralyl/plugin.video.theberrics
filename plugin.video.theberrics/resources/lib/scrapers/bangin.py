@@ -25,6 +25,10 @@ class BanginScraper(BaseScraper):
         img = post.find("img")
         try:
             icon = img['data-original']
+            # Some image paths start with //img/path/file.png so we need to
+            # add the http: protocol.
+            if not icon.startswith('http:'):
+                icon = 'http:' + icon
         except KeyError:
             icon = 'DefaultVideo.png'
         return icon

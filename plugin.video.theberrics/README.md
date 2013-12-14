@@ -5,6 +5,7 @@ XBMC video addon that allows browsing and watching videos from theberrics.com
 
 Supported Channels
 
+* All Eyes On
 * Bangin!
 * Battle Commander
 * DIY or DIE
@@ -16,6 +17,7 @@ Supported Channels
 * Shoot All Skaters
 * Thrashin' Thursdays
 * Trajectory
+* Trickipedia
 * United Nations
 * VHS
 * Wednesdays with Reda
