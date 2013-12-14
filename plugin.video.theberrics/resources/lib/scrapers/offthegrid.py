@@ -1,5 +1,5 @@
-from bangin import BanginScraper
+from base import ThumbnailScraper
 
 
-class OffTheGridScraper(BanginScraper):
+class OffTheGridScraper(ThumbnailScraper):
     url = 'http://theberrics.com/off-the-grid'

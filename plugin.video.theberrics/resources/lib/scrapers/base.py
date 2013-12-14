@@ -26,6 +26,14 @@ class BaseScraper(object):
 
         self.soup = BeautifulSoup(self.response.text)
 
+    def get_url(self, post):
+        """
+        Parses the HTML for the url for the video page
+        @TODO: what if we can't find it?  Return a sane default.
+        """
+        a = post.find("a")
+        return BASE_URL + a['href']
+
     def get_title_from_url(self, url, replace=None):
         """
         Grabs the title from the end of the URL.
@@ -63,3 +71,106 @@ class BaseScraper(object):
         class_name += 'Scraper'
         klass = getattr(module, class_name)
         return klass(plugin)
+
+
+class ThumbnailScraper(BaseScraper):
+    """
+    Base class for pages with many video thumbnails.
+
+    There are several types of video lists on theberrics.com, most of them
+    follow this layout.  So all common scraping functions for thumbnails
+    are in this class.
+    """
+
+    def get_label(self, post):
+        """
+        Parses the HTML for the label
+        """
+        date = post.find("div", attrs={'class': 'post-date'})
+        date = date.text.encode('ascii', 'ignore')
+        name = post.find("div", attrs={'class': 'post-sub-title'})
+        name = name.text.encode('ascii', 'ignore')
+        name = name.replace('&nbsp;', '')
+        if name:
+            return "{0} - {1}".format(date, name)
+        else:
+            return date
+
+    def get_icon(self, post):
+        """
+        Parses the HTML for the image for the video
+        """
+        img = post.find("img")
+        try:
+            icon = img['data-original']
+            # Some image paths start with //img/path/file.png so we need to
+            # add the http: protocol.
+            if not icon.startswith('http:'):
+                icon = 'http:' + icon
+        except KeyError:
+            icon = 'DefaultVideo.png'
+        return icon
+
+    def get_item(self, post):
+        """
+        Creates a single playable item
+        """
+        label = self.get_label(post)
+        icon = self.get_icon(post)
+        url = self.get_url(post)
+        path = self.plugin.url_for('play_video', url=url)
+        item = {
+            'label': label,
+            'label2': label,
+            'icon': icon,
+            'thumbnail': icon,
+            'path': path,
+            'is_playable': True
+        }
+        return item
+
+    def get_items(self):
+        """
+        Parses the HTML for all videos and creates a list of them
+        """
+        attrs = {'class': 'post-thumb standard-post-thumb'}
+        posts = self.soup.findAll("div", attrs=attrs)
+        return [self.get_item(post) for post in posts]
+
+
+class MenuItemScraper(BaseScraper):
+    """
+    Base class for pages with divs that have menu-items.
+
+    There are several types of video lists on theberrics.com, this handles
+    the 2nd most common layout which is a bunch of rectangle items that have a
+    menu-item class.
+    """
+
+    def get_label(self, url):
+        name = url.split('/')[-1][:-5]
+        return ' '.join([n.title() for n in name.split('-')])
+
+    def get_icon(self, post):
+        img = post.find("img")
+        return img['src']
+
+    def get_item(self, post):
+        url = self.get_url(post)
+        label = self.get_label(url)
+        icon = self.get_icon(post)
+        path = self.plugin.url_for('play_video', url=url)
+        item = {
+            'label': label,
+            'label2': label,
+            'icon': icon,
+            'thumbnail': icon,
+            'path': path,
+            'is_playable': True
+        }
+        return item
+
+    def get_items(self):
+        attrs = {'class': 'menu-item'}
+        posts = self.soup.findAll("div", attrs=attrs)
+        return [self.get_item(post) for post in posts]

@@ -1,7 +1,7 @@
-from bangin import BanginScraper
+from base import ThumbnailScraper
 
 
-class GeneralOpsScraper(BanginScraper):
+class GeneralOpsScraper(ThumbnailScraper):
     url = 'http://theberrics.com/gen-ops'
 
     def get_label(self, post):

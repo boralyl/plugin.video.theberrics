@@ -1,5 +1,5 @@
-from battlecommander import BattleCommanderScraper
+from base import MenuItemScraper
 
 
-class RecruitScraper(BattleCommanderScraper):
+class RecruitScraper(MenuItemScraper):
     url = 'http://theberrics.com/recruit'

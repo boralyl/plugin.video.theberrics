@@ -1,5 +1,5 @@
-from bangin import BanginScraper
+from base import ThumbnailScraper
 
 
-class VhsScraper(BanginScraper):
+class VhsScraper(ThumbnailScraper):
     url = 'http://theberrics.com/vhs'

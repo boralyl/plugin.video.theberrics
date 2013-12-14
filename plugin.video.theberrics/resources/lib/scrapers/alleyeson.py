@@ -1,7 +1,7 @@
-from bangin import BanginScraper
+from base import ThumbnailScraper
 
 
-class AllEyesOnScraper(BanginScraper):
+class AllEyesOnScraper(ThumbnailScraper):
     url = 'http://theberrics.com/all-eyes-on'
 
     def get_label(self, post):

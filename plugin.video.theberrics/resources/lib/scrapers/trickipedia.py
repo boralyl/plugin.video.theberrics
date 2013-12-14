@@ -1,7 +1,7 @@
-from bangin import BanginScraper
+from base import ThumbnailScraper
 
 
-class TrickipediaScraper(BanginScraper):
+class TrickipediaScraper(ThumbnailScraper):
     url = 'http://theberrics.com/trickipedia'
 
     def get_label(self, post):
@@ -18,7 +18,6 @@ class TrickipediaScraper(BanginScraper):
         img = post.find("img")
         try:
             icon = img['data-original']
-            self.plugin.log(icon)
             icon = icon.replace('w=60', 'w=400')
             icon = icon.replace('h=60', 'h=400')
         except KeyError:

@@ -1,5 +1,5 @@
-from bangin import BanginScraper
+from base import ThumbnailScraper
 
 
-class TrajectoryScraper(BanginScraper):
+class TrajectoryScraper(ThumbnailScraper):
     url = 'http://theberrics.com/trajectory'

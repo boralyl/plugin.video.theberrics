@@ -1,5 +1,5 @@
-from bangin import BanginScraper
+from base import ThumbnailScraper
 
 
-class ShootAllSkatersScraper(BanginScraper):
+class ShootAllSkatersScraper(ThumbnailScraper):
     url = 'http://theberrics.com/shoot-all-skaters'

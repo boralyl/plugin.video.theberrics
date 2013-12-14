@@ -1,5 +1,5 @@
-from bangin import BanginScraper
+from base import ThumbnailScraper
 
 
-class ProcessScraper(BanginScraper):
+class ProcessScraper(ThumbnailScraper):
     url = 'http://theberrics.com/process'

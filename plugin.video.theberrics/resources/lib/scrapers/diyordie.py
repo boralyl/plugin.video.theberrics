@@ -1,5 +1,5 @@
-from bangin import BanginScraper
+from base import ThumbnailScraper
 
 
-class DiyOrDieScraper(BanginScraper):
+class DiyOrDieScraper(ThumbnailScraper):
     url = 'http://theberrics.com/diy-or-die'

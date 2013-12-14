@@ -1,5 +1,5 @@
-from battlecommander import BattleCommanderScraper
+from base import MenuItemScraper
 
 
-class UnitedNationsScraper(BattleCommanderScraper):
+class UnitedNationsScraper(MenuItemScraper):
     url = 'http://theberrics.com/united-nations'
