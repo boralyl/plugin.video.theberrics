@@ -52,6 +52,7 @@ def categories():
         ('All Eyes On', 'all_eyes_on'),
         ('Bangin!', 'bangin'),
         ('Battle Commander', 'battle_commander'),
+        ('Bombaklats', 'bombaklats'),
         ('DIY or DIE', 'diy_or_die'),
         ('First Try Fridays', 'first_try_fridays'),
         ('General Ops', 'general_ops'),
