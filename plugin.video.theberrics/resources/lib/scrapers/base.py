@@ -52,7 +52,8 @@ class BaseScraper(object):
         if match:
             slug = match.groups()[0]
             title = ' '.join([word.title() for word in slug.split('-')])
-            title = re.sub('(?i)' + re.escape(replace), '', title)
+            if replace:
+                title = re.sub('(?i)' + re.escape(replace), '', title)
             title = title.strip()
         return title
 
