@@ -8,6 +8,7 @@ Supported Channels
 * All Eyes On
 * Bangin!
 * Battle Commander
+* Bombaklats
 * DIY or DIE
 * First Try Fridays
 * General Ops (slow loading, need to implement caching)
