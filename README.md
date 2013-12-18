@@ -10,6 +10,7 @@ Supported Channels
 * Battle Commander
 * Bombaklats
 * DIY or DIE
+* Established
 * First Try Fridays
 * General Ops (slow loading, need to implement caching)
 * Off the Grid

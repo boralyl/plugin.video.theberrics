@@ -54,6 +54,7 @@ def categories():
         ('Battle Commander', 'battle_commander'),
         ('Bombaklats', 'bombaklats'),
         ('DIY or DIE', 'diy_or_die'),
+        ('Established', 'est'),
         ('First Try Fridays', 'first_try_fridays'),
         ('General Ops', 'general_ops'),
         ('Off The Grid', 'off_the_grid'),
