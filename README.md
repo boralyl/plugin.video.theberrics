@@ -13,6 +13,7 @@ Supported Channels
 * Established
 * First Try Fridays
 * General Ops
+* Highlights
 * Off the Grid
 * Process
 * Recruit

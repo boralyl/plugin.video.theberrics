@@ -74,6 +74,7 @@ def categories():
         ('Established', 'est'),
         ('First Try Fridays', 'first_try_fridays'),
         ('General Ops', 'general_ops'),
+        ('Highlights', 'highlights'),
         ('Off The Grid', 'off_the_grid'),
         ('Process', 'process'),
         ('Recruit', 'recruit'),
