@@ -28,9 +28,5 @@ class TrickipediaScraper(ThumbnailScraper):
         """
         Parses the HTML for all videos and creates a list of them
         """
-        limit, offset = self.get_limit_and_offset_for_page(page)
         attrs = {'class': 'trick-div clearfix'}
-        posts = self.soup.findAll("div", attrs=attrs)
-        num_posts = len(posts)
-        posts = posts[offset:limit]
-        return ([self.get_item(post) for post in posts], num_posts)
+        return self._get_items(page=page, attrs=attrs)

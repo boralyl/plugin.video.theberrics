@@ -43,12 +43,14 @@ def show_category(category, page='1'):
     page = int(page)
     items, has_next = utils.get_items_for_category(category, plugin, page)
 
+    has_pagination = False
     if has_next:
         items.append({
             'label': 'Next >>',
             'path': plugin.url_for('show_category', category=category,
                                    page=str(page + 1))
         })
+        has_pagination = True
 
     if page > 1:
         items.insert(0, {
@@ -56,8 +58,14 @@ def show_category(category, page='1'):
             'path': plugin.url_for('show_category', category=category,
                                    page=str(page - 1))
         })
+        has_pagination = True
 
-    return plugin.finish(items, update_listing=True)
+    if has_pagination:
+        # need to manually call finish so xbmc knows not to store history
+        # for the next/previous items.
+        return plugin.finish(items, update_listing=True)
+    else:
+        return items
 
 
 @plugin.route('/')

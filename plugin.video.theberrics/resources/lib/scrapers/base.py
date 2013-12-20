@@ -64,13 +64,26 @@ class BaseScraper(object):
             title = title.strip()
         return title
 
-    def get_limit_and_offset_for_page(self, page):
+    def get_slice_start_and_end_for_page(self, page):
         """
+        Calculates what the start and end should be for the list slice
+        based on the page
+        """
+        start = (page - 1) * MAX_RESULTS
+        end = MAX_RESULTS * page
+        return (start, end)
 
+    def _get_items(self, page=1, tag='div', attrs={}):
         """
-        limit = MAX_RESULTS * page
-        offset = (page - 1) * MAX_RESULTS
-        return (limit, offset)
+        Parses the HTML for all videos on a page and creates and returns
+        a list from them.  The total number of items on the page is also
+        returned for pagination.
+        """
+        start, end = self.get_slice_start_and_end_for_page(page)
+        elements = self.soup.findAll(tag, attrs=attrs)
+        total = len(elements)
+        elements = elements[start:end]
+        return ([self.get_item(el) for el in elements], total)
 
     @staticmethod
     def factory(category, plugin):
@@ -149,13 +162,8 @@ class ThumbnailScraper(BaseScraper):
         """
         Parses the HTML for all videos and creates a list of them
         """
-        limit, offset = self.get_limit_and_offset_for_page(page)
-
         attrs = {'class': 'post-thumb standard-post-thumb'}
-        posts = self.soup.findAll("div", attrs=attrs)
-        num_posts = len(posts)
-        posts = posts[offset:limit]
-        return [self.get_item(post) for post in posts], num_posts
+        return self._get_items(page=page, attrs=attrs)
 
 
 class MenuItemScraper(BaseScraper):
@@ -191,9 +199,5 @@ class MenuItemScraper(BaseScraper):
         return item
 
     def get_items(self, page=1):
-        limit, offset = self.get_limit_and_offset_for_page(page)
         attrs = {'class': 'menu-item'}
-        posts = self.soup.findAll("div", attrs=attrs)
-        num_posts = len(posts)
-        posts = posts[offset:limit]
-        return ([self.get_item(post) for post in posts], num_posts)
+        return self._get_items(page=page, attrs=attrs)
