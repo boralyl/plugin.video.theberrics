@@ -152,11 +152,7 @@ class ThumbnailScraper(BaseScraper):
         limit, offset = self.get_limit_and_offset_for_page(page)
 
         attrs = {'class': 'post-thumb standard-post-thumb'}
-        kwargs = {}
-        if page == 1:
-            kwargs['limit'] = limit
-        self.log("page: %s, limit: %s, offset: %s" % (page, limit, offset))
-        posts = self.soup.findAll("div", attrs=attrs, **kwargs)
+        posts = self.soup.findAll("div", attrs=attrs)
         num_posts = len(posts)
         posts = posts[offset:limit]
         return [self.get_item(post) for post in posts], num_posts
@@ -195,16 +191,9 @@ class MenuItemScraper(BaseScraper):
         return item
 
     def get_items(self, page=1):
-        self.log("page: %s" % (page,))
-        limit = 30
-        offset = (page - 1) * limit
+        limit, offset = self.get_limit_and_offset_for_page(page)
         attrs = {'class': 'menu-item'}
-        if page == 1:
-            posts = self.soup.findAll("div", attrs=attrs, limit=MAX_RESULTS)
-        else:
-            posts = self.soup.findAll("div", attrs=attrs)[offset:limit]
-        self.plugin.log.error(":shit")
-        self.plugin.log.error(posts)
-        self.log(posts)
+        posts = self.soup.findAll("div", attrs=attrs)
         num_posts = len(posts)
+        posts = posts[offset:limit]
         return ([self.get_item(post) for post in posts], num_posts)
