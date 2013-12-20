@@ -8,6 +8,7 @@ import requests
 BASE_URL = 'http://theberrics.com'
 GOOGLE_CACHE_URL = 'http://webcache.googleusercontent.com/search?q=cache:{0}'
 SLUG_RE = re.compile(r'([a-zA-Z0-9\-]+)\.')
+MAX_RESULTS = 30
 
 
 class BaseScraper(object):
@@ -25,6 +26,12 @@ class BaseScraper(object):
                                 "be down." % self.url)
 
         self.soup = BeautifulSoup(self.response.text)
+
+    def log(self, msg):
+        """
+        A wrapper to more easily perform logging using the scraper
+        """
+        return self.plugin.log.debug(msg)
 
     def get_url(self, post):
         """
@@ -56,6 +63,14 @@ class BaseScraper(object):
                 title = re.sub('(?i)' + re.escape(replace), '', title)
             title = title.strip()
         return title
+
+    def get_limit_and_offset_for_page(self, page):
+        """
+
+        """
+        limit = MAX_RESULTS * page
+        offset = (page - 1) * MAX_RESULTS
+        return (limit, offset)
 
     @staticmethod
     def factory(category, plugin):
@@ -130,13 +145,21 @@ class ThumbnailScraper(BaseScraper):
         }
         return item
 
-    def get_items(self):
+    def get_items(self, page=1):
         """
         Parses the HTML for all videos and creates a list of them
         """
+        limit, offset = self.get_limit_and_offset_for_page(page)
+
         attrs = {'class': 'post-thumb standard-post-thumb'}
-        posts = self.soup.findAll("div", attrs=attrs)
-        return [self.get_item(post) for post in posts]
+        kwargs = {}
+        if page == 1:
+            kwargs['limit'] = limit
+        self.log("page: %s, limit: %s, offset: %s" % (page, limit, offset))
+        posts = self.soup.findAll("div", attrs=attrs, **kwargs)
+        num_posts = len(posts)
+        posts = posts[offset:limit]
+        return [self.get_item(post) for post in posts], num_posts
 
 
 class MenuItemScraper(BaseScraper):
@@ -171,7 +194,17 @@ class MenuItemScraper(BaseScraper):
         }
         return item
 
-    def get_items(self):
+    def get_items(self, page=1):
+        self.log("page: %s" % (page,))
+        limit = 30
+        offset = (page - 1) * limit
         attrs = {'class': 'menu-item'}
-        posts = self.soup.findAll("div", attrs=attrs)
-        return [self.get_item(post) for post in posts]
+        if page == 1:
+            posts = self.soup.findAll("div", attrs=attrs, limit=MAX_RESULTS)
+        else:
+            posts = self.soup.findAll("div", attrs=attrs)[offset:limit]
+        self.plugin.log.error(":shit")
+        self.plugin.log.error(posts)
+        self.log(posts)
+        num_posts = len(posts)
+        return ([self.get_item(post) for post in posts], num_posts)

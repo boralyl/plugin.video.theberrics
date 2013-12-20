@@ -34,13 +34,30 @@ def play_video(url):
     plugin.set_resolved_url(vid_url)
 
 
-@plugin.route('/category/<category>')
-def show_category(category):
+@plugin.route('/category/<category>/<page>')
+def show_category(category, page='1'):
     """
     Category page, lists all videos for the provided category
     """
-    items = utils.get_items_for_category(category, plugin)
-    return plugin.finish(items)
+    plugin.log.debug("category: %s, page: %s" % (category, page))
+    page = int(page)
+    items, has_next = utils.get_items_for_category(category, plugin, page)
+
+    if has_next:
+        items.append({
+            'label': 'Next >>',
+            'path': plugin.url_for('show_category', category=category,
+                                   page=str(page + 1))
+        })
+
+    if page > 1:
+        items.insert(0, {
+            'label': '<< Previous',
+            'path': plugin.url_for('show_category', category=category,
+                                   page=str(page - 1))
+        })
+
+    return plugin.finish(items, update_listing=True)
 
 
 @plugin.route('/')

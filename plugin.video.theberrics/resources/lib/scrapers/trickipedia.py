@@ -24,10 +24,13 @@ class TrickipediaScraper(ThumbnailScraper):
             icon = 'DefaultVideo.png'
         return icon
 
-    def get_items(self):
+    def get_items(self, page=1):
         """
         Parses the HTML for all videos and creates a list of them
         """
+        limit, offset = self.get_limit_and_offset_for_page(page)
         attrs = {'class': 'trick-div clearfix'}
         posts = self.soup.findAll("div", attrs=attrs)
-        return [self.get_item(post) for post in posts]
+        num_posts = len(posts)
+        posts = posts[offset:limit]
+        return ([self.get_item(post) for post in posts], num_posts)

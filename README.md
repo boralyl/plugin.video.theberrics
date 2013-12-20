@@ -12,7 +12,7 @@ Supported Channels
 * DIY or DIE
 * Established
 * First Try Fridays
-* General Ops (slow loading, need to implement caching)
+* General Ops
 * Off the Grid
 * Process
 * Recruit

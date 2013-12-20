@@ -2,7 +2,7 @@ import re
 
 import requests
 
-from scrapers.base import BaseScraper, GOOGLE_CACHE_URL
+from scrapers.base import BaseScraper, GOOGLE_CACHE_URL, MAX_RESULTS
 
 # for script.common.plugin.cache
 try:
@@ -16,14 +16,21 @@ BERRICS_VIDEO_URL = 'http://berrics.vo.llnwd.net/o45/{0}.mp4'
 VIDEO_ID_RE = re.compile('data-media-file-id="([a-zA-Z0-9\-]+)"\s')
 
 
-def get_items_for_category(category, plugin):
+def get_items_for_category(category, plugin, page=1):
     """
     Collects all video items for the provided category
     """
     scraper = BaseScraper.factory(category, plugin)
 
     # Return cached result or calls function.  Cache expires every 24 hours
-    return cache.cacheFunction(scraper.get_items)
+    #return cache.cacheFunction(scraper.get_items)
+    items, total = scraper.get_items(page)
+    plugin.log.error(total)
+    has_next = False
+    plugin.log.error((MAX_RESULTS * page))
+    if total > (MAX_RESULTS * page):
+        has_next = True
+    return (items, has_next)
 
 
 def add_autoplay(url):
@@ -62,6 +69,6 @@ def create_item_for_category(name, category, media_url, plugin):
         'label': name,
         'icon': "{0}{1}.png".format(media_url, category),
         'thumbnail': "{0}{1}.png".format(media_url, category),
-        'path': plugin.url_for('show_category', category=category)
+        'path': plugin.url_for('show_category', category=category, page='1')
     }
     return item
