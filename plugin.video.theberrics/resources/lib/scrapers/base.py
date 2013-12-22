@@ -40,7 +40,7 @@ class BaseScraper(object):
     def get_url(self, post):
         """
         Parses the HTML for the url for the video page
-        @TODO: what if we can't find it?  Return a sane default.
+        @TODO: what if we can't find it?  Skip this video and continue?
         """
         a = post.find("a")
         return BASE_URL + a['href']
@@ -93,11 +93,12 @@ class BaseScraper(object):
         """
         Returns all years as items for the category
         """
-        urls = []
         lis = self.soup.findAll("li", attrs={'data-year': YEAR_RE})
-        if lis:
-            urls = [li.find("a")['href'] for li in lis]
-        # @TODO: Do something here if we don't find any urls
+        if not lis:
+            raise Exception("Couldn't find any additional pages for %s" % (
+                self.category,))
+
+        urls = [li.find("a")['href'] for li in lis]
         items = [{
             'label': url.split('/')[-1],
             'label2': url.split('/')[1],
