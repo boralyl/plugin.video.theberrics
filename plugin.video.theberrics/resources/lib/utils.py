@@ -22,11 +22,33 @@ def get_items_for_category(category, plugin, page=1):
     scraper = BaseScraper.factory(category, plugin)
 
     # Return cached result or calls function.  Cache expires every 24 hours
-    items, total = cache.cacheFunction(scraper.get_items, page)
+    #items, total = cache.cacheFunction(scraper.get_items, page)
+    items, total = scraper.get_items(page)
     has_next = False
     if total > (MAX_RESULTS * page):
         has_next = True
     return (items, has_next)
+
+
+def get_items_for_year(category, year, plugin):
+    """
+    Collects all video items for the provided category/year
+    """
+    scraper = BaseScraper.factory(category, plugin, year)
+
+    # items = cache.cacheFunction(scraper.get_items, page)
+    items, total = scraper.get_items(page=1)
+    return (items, False)
+
+
+def get_years_for_category(category, plugin):
+    """
+    Collects all years and returns the items for the provided category
+    """
+    scraper = BaseScraper.factory(category, plugin)
+    # cache.cacheFunction(scraper.get_years)
+    items = scraper.get_years()
+    return items
 
 
 def add_autoplay(url):
@@ -57,7 +79,7 @@ def get_video_url(url):
         return BERRICS_VIDEO_URL.format(found[0])
 
 
-def create_item_for_category(name, category, media_url, plugin):
+def create_item_for_category(name, category, has_years, media_url, plugin):
     """
     Creates an item for the category list page
     """
@@ -65,6 +87,12 @@ def create_item_for_category(name, category, media_url, plugin):
         'label': name,
         'icon': "{0}{1}.png".format(media_url, category),
         'thumbnail': "{0}{1}.png".format(media_url, category),
-        'path': plugin.url_for('show_category', category=category, page='1')
     }
+
+    if has_years:
+        item['path'] = plugin.url_for('show_years_for_category',
+                                      category=category)
+    else:
+        item['path'] = plugin.url_for('show_category', category=category,
+                                      page='1')
     return item

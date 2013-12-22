@@ -34,12 +34,26 @@ def play_video(url):
     plugin.set_resolved_url(vid_url)
 
 
+@plugin.route('/category/<category>/years')
+def show_years_for_category(category):
+    """
+    Shows all years for the selected category
+    """
+    items = utils.get_years_for_category(category, plugin)
+    return items
+
+
+@plugin.route('/category/<category>/year/<year>')
+def show_year(category, year):
+    items, has_next = utils.get_items_for_year(category, year, plugin)
+    return items
+
+
 @plugin.route('/category/<category>/<page>')
 def show_category(category, page='1'):
     """
     Category page, lists all videos for the provided category
     """
-    plugin.log.debug("category: %s, page: %s" % (category, page))
     page = int(page)
     items, has_next = utils.get_items_for_category(category, plugin, page)
 
@@ -74,28 +88,30 @@ def categories():
     The index view, which lists all categories
     """
     categories = (
-        ('All Eyes On', 'all_eyes_on'),
-        ('Bangin!', 'bangin'),
-        ('Battle Commander', 'battle_commander'),
-        ('Bombaklats', 'bombaklats'),
-        ('DIY or DIE', 'diy_or_die'),
-        ('Established', 'est'),
-        ('First Try Fridays', 'first_try_fridays'),
-        ('General Ops', 'general_ops'),
-        ('Highlights', 'highlights'),
-        ('Off The Grid', 'off_the_grid'),
-        ('Process', 'process'),
-        ('Recruit', 'recruit'),
-        ('Shoot All Skaters', 'shoot_all_skaters'),
-        ('Thrashin\' Thursdays', 'thrashin_thursdays'),
-        ('Trajectory', 'trajectory'),
-        ('Trickipedia', 'trickipedia'),
-        ('United Nations', 'united_nations'),
-        ('VHS', 'vhs'),
-        ('Wednesdays With Reda', 'wednesdays_with_reda'),
+        # (label, category, has_multiple_years_pages)
+        ('All Eyes On', 'all_eyes_on', True),
+        ('Bangin!', 'bangin', True),
+        ('Battle Commander', 'battle_commander', False),
+        ('Bombaklats', 'bombaklats', True),
+        ('DIY or DIE', 'diy_or_die', True),
+        ('Established', 'est', True),
+        ('First Try Fridays', 'first_try_fridays', True),
+        ('General Ops', 'general_ops', True),
+        ('Highlights', 'highlights', True),
+        ('Off The Grid', 'off_the_grid', True),
+        ('Process', 'process', True),
+        ('Recruit', 'recruit', False),
+        ('Shoot All Skaters', 'shoot_all_skaters', True),
+        ('Thrashin\' Thursdays', 'thrashin_thursdays', True),
+        ('Trajectory', 'trajectory', True),
+        ('Trickipedia', 'trickipedia', False),
+        ('United Nations', 'united_nations', False),
+        ('VHS', 'vhs', True),
+        ('Wednesdays With Reda', 'wednesdays_with_reda', True),
     )
-    items = [utils.create_item_for_category(name, category, MEDIA_URL, plugin)
-             for name, category in categories]
+    items = [utils.create_item_for_category(
+                name, category, has_years, MEDIA_URL, plugin)
+             for name, category, has_years in categories]
     return items
 
 

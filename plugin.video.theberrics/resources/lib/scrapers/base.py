@@ -8,13 +8,17 @@ import requests
 BASE_URL = 'http://theberrics.com'
 GOOGLE_CACHE_URL = 'http://webcache.googleusercontent.com/search?q=cache:{0}'
 SLUG_RE = re.compile(r'([a-zA-Z0-9\-]+)\.')
+YEAR_RE = re.compile(r'[\d]{4}')
 MAX_RESULTS = 30
 
 
 class BaseScraper(object):
 
-    def __init__(self, plugin):
+    def __init__(self, plugin, category, year_url=None):
         self.plugin = plugin
+        self.category = category
+        if year_url is not None:
+            self.url = BASE_URL + year_url
         try:
             self.response = requests.get(self.url, timeout=5)
         except requests.Timeout:
@@ -85,8 +89,26 @@ class BaseScraper(object):
         elements = elements[start:end]
         return ([self.get_item(el) for el in elements], total)
 
+    def get_years(self):
+        """
+        Returns all years as items for the category
+        """
+        urls = []
+        lis = self.soup.findAll("li", attrs={'data-year': YEAR_RE})
+        if lis:
+            urls = [li.find("a")['href'] for li in lis]
+        # @TODO: Do something here if we don't find any urls
+        items = [{
+            'label': url.split('/')[-1],
+            'label2': url.split('/')[1],
+            'path': self.plugin.url_for('show_year', category=self.category,
+                                        year=url),
+            'is_playable': False
+        } for url in urls]
+        return items
+
     @staticmethod
-    def factory(category, plugin):
+    def factory(category, plugin, year_url=None):
         """
         Factory method for instantiating the correct scraper class based
         on the category string
@@ -99,7 +121,7 @@ class BaseScraper(object):
         class_name = ''.join([word.title() for word in category.split('_')])
         class_name += 'Scraper'
         klass = getattr(module, class_name)
-        return klass(plugin)
+        return klass(plugin, category, year_url=year_url)
 
 
 class ThumbnailScraper(BaseScraper):
