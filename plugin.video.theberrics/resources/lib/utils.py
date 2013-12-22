@@ -24,21 +24,30 @@ def get_items_for_category(category, plugin, page=1):
     # Return cached result or calls function.  Cache expires every 24 hours
     #items, total = cache.cacheFunction(scraper.get_items, page)
     items, total = scraper.get_items(page)
-    has_next = False
-    if total > (MAX_RESULTS * page):
-        has_next = True
+    has_next = has_next_page(total, page)
     return (items, has_next)
 
 
-def get_items_for_year(category, year, plugin):
+def get_items_for_year(category, year, page, plugin):
     """
     Collects all video items for the provided category/year
     """
     scraper = BaseScraper.factory(category, plugin, year)
 
     # items = cache.cacheFunction(scraper.get_items, page)
-    items, total = scraper.get_items(page=1)
-    return (items, False)
+    items, total = scraper.get_items(page=page)
+    has_next = has_next_page(total, page)
+    return (items, has_next)
+
+
+def has_next_page(total, page):
+    """
+    Based on the page and total results, determines if there is a next page
+    """
+    has_next_page = False
+    if total > (MAX_RESULTS * page):
+        has_next_page = True
+    return has_next_page
 
 
 def get_years_for_category(category, plugin):
@@ -96,3 +105,28 @@ def create_item_for_category(name, category, has_years, media_url, plugin):
         item['path'] = plugin.url_for('show_category', category=category,
                                       page='1')
     return item
+
+
+def add_pagination(items, page, has_next_page, kwargs, plugin,
+                   route_name='show_category'):
+    """
+    Handles the logic for determining if pagination is necessary and
+    adding previous / next items if needed.
+    """
+    has_pagination = False
+
+    if has_next_page:
+        items.append({
+            'label': 'Next >>',
+            'path': plugin.url_for(route_name, page=str(page + 1), **kwargs)
+        })
+        has_pagination = True
+
+    if page > 1:
+        items.insert(0, {
+            'label': '<< Previous',
+            'path': plugin.url_for(route_name, page=str(page - 1), **kwargs)
+        })
+        has_pagination = True
+
+    return (items, has_pagination)

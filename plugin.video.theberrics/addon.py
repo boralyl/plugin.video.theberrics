@@ -45,8 +45,28 @@ def show_years_for_category(category):
 
 @plugin.route('/category/<category>/year/<year>')
 def show_year(category, year):
-    items, has_next = utils.get_items_for_year(category, year, plugin)
-    return items
+    """
+    Displays all videos for the category and year
+    """
+    page = plugin.request.args.get('page', 1)
+    # The parsed args will be a list if the key was present
+    if isinstance(page, list):
+        page = int(page[0])
+    items, has_next = utils.get_items_for_year(category, year, page, plugin)
+
+    kwargs = {
+        'category': category,
+        'year': year
+    }
+    items, has_pagination = utils.add_pagination(items, page, has_next, kwargs,
+                                                 plugin, route_name='show_year')
+
+    if has_pagination:
+        # need to manually call finish so xbmc knows not to store history
+        # for the next/previous items.
+        return plugin.finish(items, update_listing=True)
+    else:
+        return items
 
 
 @plugin.route('/category/<category>/<page>')
@@ -57,22 +77,9 @@ def show_category(category, page='1'):
     page = int(page)
     items, has_next = utils.get_items_for_category(category, plugin, page)
 
-    has_pagination = False
-    if has_next:
-        items.append({
-            'label': 'Next >>',
-            'path': plugin.url_for('show_category', category=category,
-                                   page=str(page + 1))
-        })
-        has_pagination = True
-
-    if page > 1:
-        items.insert(0, {
-            'label': '<< Previous',
-            'path': plugin.url_for('show_category', category=category,
-                                   page=str(page - 1))
-        })
-        has_pagination = True
+    kwargs = {'category': category}
+    items, has_pagination = utils.add_pagination(items, page, has_next, kwargs,
+                                                 plugin)
 
     if has_pagination:
         # need to manually call finish so xbmc knows not to store history
