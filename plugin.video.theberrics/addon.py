@@ -31,8 +31,8 @@ plugin = Plugin()
 @plugin.route('/download/<url>')
 def download_video(url):
     """
-    Downloads a video to the specified location in settings.  Displays
-    an alert if the setting is not yet configured
+    Downloads a video to the specified location in settings.  Opens
+    addon settings if the setting is not yet configured
     """
     download_folder = plugin.get_setting('download_location')
     if not download_folder:
