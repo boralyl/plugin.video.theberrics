@@ -22,8 +22,7 @@ def get_items_for_category(category, plugin, page=1):
     scraper = BaseScraper.factory(category, plugin)
 
     # Return cached result or calls function.  Cache expires every 24 hours
-    #items, total = cache.cacheFunction(scraper.get_items, page)
-    items, total = scraper.get_items(page)
+    items, total = cache.cacheFunction(scraper.get_items, page)
     has_next = has_next_page(total, page)
     return (items, has_next)
 
@@ -34,8 +33,7 @@ def get_items_for_year(category, year, page, plugin):
     """
     scraper = BaseScraper.factory(category, plugin, year)
 
-    # items = cache.cacheFunction(scraper.get_items, page)
-    items, total = scraper.get_items(page=page)
+    items, total = cache.cacheFunction(scraper.get_items, page)
     has_next = has_next_page(total, page)
     return (items, has_next)
 
@@ -55,7 +53,7 @@ def get_years_for_category(category, plugin):
     Collects all years and returns the items for the provided category
     """
     scraper = BaseScraper.factory(category, plugin)
-    # cache.cacheFunction(scraper.get_years)
+    cache.cacheFunction(scraper.get_years)
     items = scraper.get_years()
     return items
 
