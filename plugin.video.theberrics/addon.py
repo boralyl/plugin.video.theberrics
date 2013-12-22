@@ -120,7 +120,6 @@ def categories():
     """
     The index view, which lists all categories
     """
-    plugin.log.debug("download to: %s" % plugin.get_setting("download_location"))
     categories = (
         # (label, category, has_multiple_years_pages)
         ('All Eyes On', 'all_eyes_on', True),
