@@ -3,6 +3,7 @@ import re
 
 from BeautifulSoup import BeautifulSoup
 import requests
+from xbmcswift2 import actions
 
 
 BASE_URL = 'http://theberrics.com'
@@ -45,29 +46,6 @@ class BaseScraper(object):
         a = post.find("a")
         return BASE_URL + a['href']
 
-    def get_title_from_url(self, url, replace=None):
-        """
-        Grabs the title from the end of the URL.
-
-        Optionally if replace is specified, that string will be removed
-        from the title.  This is useful if the url contains the category
-        and the title.  i.e. /category-some-title.html?foo=bar would become
-        `Some Title` if we specified replace to be 'category'
-        """
-        title = None
-        # Grab the slug portion of the url.  No need to catch an exception
-        # as we will get the entire string if the '/' character isn't present
-        slug_url = url.split('/')[-1]
-        # Get just the slug and none of the .html or params
-        match = SLUG_RE.match(slug_url)
-        if match:
-            slug = match.groups()[0]
-            title = ' '.join([word.title() for word in slug.split('-')])
-            if replace:
-                title = re.sub('(?i)' + re.escape(replace), '', title)
-            title = title.strip()
-        return title
-
     def get_slice_start_and_end_for_page(self, page):
         """
         Calculates what the start and end should be for the list slice
@@ -107,6 +85,30 @@ class BaseScraper(object):
             'is_playable': False
         } for url in urls]
         return items
+
+    @staticmethod
+    def get_title_from_url(url, replace=None):
+        """
+        Grabs the title from the end of the URL.
+
+        Optionally if replace is specified, that string will be removed
+        from the title.  This is useful if the url contains the category
+        and the title.  i.e. /category-some-title.html?foo=bar would become
+        `Some Title` if we specified replace to be 'category'
+        """
+        title = None
+        # Grab the slug portion of the url.  No need to catch an exception
+        # as we will get the entire string if the '/' character isn't present
+        slug_url = url.split('/')[-1]
+        # Get just the slug and none of the .html or params
+        match = SLUG_RE.match(slug_url)
+        if match:
+            slug = match.groups()[0]
+            title = ' '.join([word.title() for word in slug.split('-')])
+            if replace:
+                title = re.sub('(?i)' + re.escape(replace), '', title)
+            title = title.strip()
+        return title
 
     @staticmethod
     def factory(category, plugin, year_url=None):
@@ -171,13 +173,18 @@ class ThumbnailScraper(BaseScraper):
         icon = self.get_icon(post)
         url = self.get_url(post)
         path = self.plugin.url_for('play_video', url=url)
+        download_url = self.plugin.url_for('download_video', url=url)
         item = {
             'label': label,
             'label2': label,
             'icon': icon,
             'thumbnail': icon,
             'path': path,
-            'is_playable': True
+            'is_playable': True,
+            'context_menu': [
+                ('Download Video', actions.background(download_url))
+            ],
+            'replace_context_menu': True
         }
         return item
 

@@ -12,7 +12,7 @@ class GeneralOpsScraper(ThumbnailScraper):
         # If there is an elipsis in the title, grab the title from the URL
         if '...' in title:
             url = self.get_url(post)
-            title = self.get_title_from_url(url)
+            title = ThumbnailScraper.get_title_from_url(url)
         subtitle = post.find("div", attrs={'class': 'post-sub-title'})
         subtitle = subtitle.text.encode('ascii', 'ignore')
         subtitle = subtitle.replace('&nbsp;', '')

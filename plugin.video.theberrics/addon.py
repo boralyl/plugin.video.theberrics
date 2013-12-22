@@ -13,15 +13,41 @@
 # *  the Free Software Foundation, 675 Mass Ave, Cambridge, MA 02139, USA.
 # *  http://www.gnu.org/copyleft/gpl.html
 
+import os
+import urllib
+
 from xbmcswift2 import Plugin
 
 from resources.lib import utils
+from resources.lib.scrapers.base import BaseScraper
 
 
 PLUGIN_ID = 'plugin.video.theberrics'
 MEDIA_URL = 'special://home/addons/{0}/resources/media/'.format(PLUGIN_ID)
 
 plugin = Plugin()
+
+
+@plugin.route('/download/<url>')
+def download_video(url):
+    """
+    Downloads a video to the specified location in settings.  Displays
+    an alert if the setting is not yet configured
+    """
+    download_folder = plugin.get_setting('download_location')
+    if not download_folder:
+        plugin.open_settings()
+        return
+
+    video_title = BaseScraper.get_title_from_url(url)
+    video_title = video_title.replace(' ', '_') + ".mp4"
+
+    video_url = utils.get_video_url(url)
+    download_location = os.path.join(download_folder, video_title)
+
+    plugin.notify("Downloading to %s" % download_location)
+    urllib.urlretrieve(video_url, download_location)
+    plugin.notify("Download complete.")
 
 
 @plugin.route('/play/<url>')
@@ -94,6 +120,7 @@ def categories():
     """
     The index view, which lists all categories
     """
+    plugin.log.debug("download to: %s" % plugin.get_setting("download_location"))
     categories = (
         # (label, category, has_multiple_years_pages)
         ('All Eyes On', 'all_eyes_on', True),
